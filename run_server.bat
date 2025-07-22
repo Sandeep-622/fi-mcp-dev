@@ -1,0 +1,3 @@
+@echo off
+echo Starting Fi MCP Server...
+go run main.go

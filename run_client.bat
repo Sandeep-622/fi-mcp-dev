@@ -1,0 +1,3 @@
+@echo off
+echo Starting MCP Client...
+go run mcp_client.go
