@@ -40,9 +40,12 @@ func main() {
 	streamableServer := server.NewStreamableHTTPServer(s,
 		server.WithEndpointPath("/stream"),
 	)
-	httpMux.Handle("/mcp/", streamableServer)
+	// Apply HTTP authentication middleware to the MCP endpoints
+	httpMux.Handle("/mcp/", authMiddleware.HTTPAuthMiddleware(streamableServer))
 	httpMux.HandleFunc("/mockWebPage", webPageHandler)
 	httpMux.HandleFunc("/login", loginHandler)
+	httpMux.HandleFunc("/check-session", checkSessionHandler)
+	httpMux.HandleFunc("/tool", toolCallHandler)
 	port := pkg.GetPort()
 	log.Println("starting server on port:", port)
 	if servErr := http.ListenAndServe(fmt.Sprintf(":%s", port), httpMux); servErr != nil {
@@ -107,4 +110,59 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+// Handler to explicitly check if a session is valid
+func checkSessionHandler(w http.ResponseWriter, r *http.Request) {
+	sessionId := r.URL.Query().Get("sessionId")
+	if sessionId == "" {
+		http.Error(w, "sessionId is required", http.StatusBadRequest)
+		return
+	}
+
+	// Check if the session exists in the auth middleware's session store
+	phoneNumber, ok := authMiddleware.CheckSession(sessionId)
+	
+	// Set response headers
+	w.Header().Set("Content-Type", "application/json")
+	
+	if !ok {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{"valid": false, "message": "Invalid or expired session"}`))
+		return
+	}
+	
+	// Session is valid
+	response := fmt.Sprintf(`{"valid": true, "phoneNumber": "%s"}`, phoneNumber)
+	w.Write([]byte(response))
+}
+
+// Handler for direct tool calls
+func toolCallHandler(w http.ResponseWriter, r *http.Request) {
+	sessionId := r.URL.Query().Get("sessionId")
+	toolName := r.URL.Query().Get("tool")
+	
+	if sessionId == "" || toolName == "" {
+		http.Error(w, "sessionId and tool are required", http.StatusBadRequest)
+		return
+	}
+	
+	// Check if the session exists in the auth middleware's session store
+	phoneNumber, ok := authMiddleware.CheckSession(sessionId)
+	if !ok {
+		http.Error(w, "Invalid or expired session", http.StatusUnauthorized)
+		return
+	}
+	
+	// Try to read the tool data from the test directory
+	filePath := fmt.Sprintf("test_data_dir/%s/%s.json", phoneNumber, toolName)
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error reading tool data: %v", err), http.StatusInternalServerError)
+		return
+	}
+	
+	// Set content type and return the data
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
 }

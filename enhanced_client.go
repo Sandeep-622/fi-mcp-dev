@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 )
 
 // MCPClient represents a client for the Model Context Protocol
@@ -64,6 +65,8 @@ func (c *MCPClient) CallTool(toolName string) error {
 	// For simplicity, we'll directly read the tool data from the test data directory
 	filePath := fmt.Sprintf("test_data_dir/%s/%s.json", c.phoneNumber, toolName)
 	
+	fmt.Printf("Reading tool data from: %s\n", filePath)
+	
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return fmt.Errorf("error reading file %s: %v", filePath, err)
@@ -92,8 +95,8 @@ func main() {
 
 	// Configure the client
 	baseURL := "http://localhost:8080"
-	sessionID := "my_session_1234"
-	phoneNumber := "2222222222"  // Choose one from the test data
+	sessionID := "new_session_" + fmt.Sprintf("%d", time.Now().Unix())  // Use a timestamp to ensure uniqueness
+	phoneNumber := "1111111111"  // Choose one from the test data
 
 	fmt.Println("==============================================")
 	fmt.Println("Fi MCP Enhanced Client")

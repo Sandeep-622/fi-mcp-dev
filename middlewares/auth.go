@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -51,6 +52,28 @@ func (m *AuthMiddleware) AuthMiddleware(next server.ToolHandlerFunc) server.Tool
 	}
 }
 
+// HTTPAuthMiddleware is a standard HTTP middleware that validates sessions
+func (m *AuthMiddleware) HTTPAuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Extract sessionId from query parameters
+		sessionId := r.URL.Query().Get("sessionId")
+		if sessionId == "" {
+			http.Error(w, "Session ID is required", http.StatusUnauthorized)
+			return
+		}
+
+		// Check if the session exists
+		_, ok := m.sessionStore[sessionId]
+		if !ok {
+			http.Error(w, "Invalid or expired session", http.StatusUnauthorized)
+			return
+		}
+
+		// Session is valid, continue to the next handler
+		next.ServeHTTP(w, r)
+	})
+}
+
 // GetLoginUrl fetches dynamic login url for given sessionId
 func (m *AuthMiddleware) getLoginUrl(sessionId string) string {
 	return fmt.Sprintf("http://localhost:%s/mockWebPage?sessionId=%s", pkg.GetPort(), sessionId)
@@ -58,4 +81,10 @@ func (m *AuthMiddleware) getLoginUrl(sessionId string) string {
 
 func (m *AuthMiddleware) AddSession(sessionId, phoneNumber string) {
 	m.sessionStore[sessionId] = phoneNumber
+}
+
+// CheckSession checks if a session exists and returns the associated phone number
+func (m *AuthMiddleware) CheckSession(sessionId string) (string, bool) {
+	phoneNumber, ok := m.sessionStore[sessionId]
+	return phoneNumber, ok
 }

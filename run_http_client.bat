@@ -1,3 +1,0 @@
-@echo off
-echo Starting Simple HTTP Client...
-go run simple_http_client.go
