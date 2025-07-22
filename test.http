@@ -1,9 +1,0 @@
-POST http://localhost:8080/mcp/stream
-Content-Type: application/json
-
-{
-  "type": "callTool",
-  "sessionId": "temp1",
-  "name": "fetch_net_worth",
-  "parameters": {}
-}
