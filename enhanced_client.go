@@ -96,7 +96,7 @@ func main() {
 	// Configure the client
 	baseURL := "http://localhost:8080"
 	sessionID := "new_session_" + fmt.Sprintf("%d", time.Now().Unix())  // Use a timestamp to ensure uniqueness
-	phoneNumber := "1111111111"  // Choose one from the test data
+	phoneNumber := "2222222222"  // Choose one from the test data
 
 	fmt.Println("==============================================")
 	fmt.Println("Fi MCP Enhanced Client")
