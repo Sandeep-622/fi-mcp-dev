@@ -26,6 +26,7 @@ function Layout({ darkMode, toggleDarkMode }) {
   const [user, setUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phoneNumber') || '2222222222')
   const [loginModalOpen, setLoginModalOpen] = useState(false)
+  const [shouldRedirectAfterLogin, setShouldRedirectAfterLogin] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const isMobile = useMediaQuery('(max-width:600px)')
@@ -45,6 +46,13 @@ function Layout({ darkMode, toggleDarkMode }) {
 
   // Handle opening login modal
   const handleOpenLoginModal = () => {
+    setShouldRedirectAfterLogin(false)
+    setLoginModalOpen(true)
+  }
+
+  // Handle opening login modal with redirect to chat after login
+  const handleOpenLoginModalWithRedirect = () => {
+    setShouldRedirectAfterLogin(true)
     setLoginModalOpen(true)
   }
 
@@ -56,7 +64,10 @@ function Layout({ darkMode, toggleDarkMode }) {
   // Handle successful login
   const handleLoginSuccess = () => {
     setLoginModalOpen(false)
-    navigate('/chat')
+    if (shouldRedirectAfterLogin) {
+      navigate('/chat')
+    }
+    setShouldRedirectAfterLogin(false) // Reset the flag
   }
 
   // Load user from localStorage and set up auth state listener
@@ -94,7 +105,18 @@ function Layout({ darkMode, toggleDarkMode }) {
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography 
+            variant="h6" 
+            component="div" 
+            sx={{ 
+              flexGrow: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                opacity: 0.8
+              }
+            }}
+            onClick={() => navigate('/')}
+          >
             Fi MCP AI Chat
           </Typography>
           
@@ -121,6 +143,7 @@ function Layout({ darkMode, toggleDarkMode }) {
             isModalOpen={loginModalOpen}
             onCloseModal={handleCloseLoginModal}
             onLoginSuccess={handleLoginSuccess}
+            onRequestLogin={handleOpenLoginModal}
           />
           
           <IconButton color="inherit" onClick={toggleDarkMode} sx={{ ml: 1 }}>
@@ -131,14 +154,27 @@ function Layout({ darkMode, toggleDarkMode }) {
       
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Routes>
-          <Route path="/" element={<LandingPage user={user} onRequestLogin={handleOpenLoginModal} />} />
+          <Route 
+            path="/" 
+            element={
+              <LandingPage 
+                user={user} 
+                onRequestLogin={handleOpenLoginModal}
+                onRequestLoginWithRedirect={handleOpenLoginModalWithRedirect}
+              />
+            } 
+          />
           <Route 
             path="/chat" 
             element={
               user ? (
                 <ChatPage user={user} darkMode={darkMode} phoneNumber={phoneNumber} />
               ) : (
-                <LandingPage user={user} onRequestLogin={handleOpenLoginModal} />
+                <LandingPage 
+                  user={user} 
+                  onRequestLogin={handleOpenLoginModal}
+                  onRequestLoginWithRedirect={handleOpenLoginModalWithRedirect}
+                />
               )
             } 
           />

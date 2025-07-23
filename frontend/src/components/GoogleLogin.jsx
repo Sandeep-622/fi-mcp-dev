@@ -13,7 +13,7 @@ import { Google as GoogleIcon, Logout as LogoutIcon } from '@mui/icons-material'
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { auth, googleProvider } from '../firebase'
 
-function GoogleLogin({ user, setUser, onLogout, isModalOpen, onCloseModal, onLoginSuccess }) {
+function GoogleLogin({ user, setUser, onLogout, isModalOpen, onCloseModal, onLoginSuccess, onRequestLogin }) {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -126,7 +126,15 @@ function GoogleLogin({ user, setUser, onLogout, isModalOpen, onCloseModal, onLog
     <>
       <Button
         color="inherit"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          if (onRequestLogin) {
+            // Use external login handler when available
+            onRequestLogin()
+          } else {
+            // Use internal modal control
+            setOpen(true)
+          }
+        }}
         startIcon={<GoogleIcon />}
       >
         Login

@@ -18,7 +18,7 @@ import {
   Chat as ChatIcon,
 } from '@mui/icons-material'
 
-function LandingPage({ user, onRequestLogin }) {
+function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
   const navigate = useNavigate()
   const theme = useTheme()
 
@@ -49,9 +49,20 @@ function LandingPage({ user, onRequestLogin }) {
     if (user) {
       navigate('/chat')
     } else {
-      // Trigger login modal instead of navigation
+      // Trigger login modal, stay on landing page after login
       if (onRequestLogin) {
         onRequestLogin()
+      }
+    }
+  }
+
+  const handleStartChatting = () => {
+    if (user) {
+      navigate('/chat')
+    } else {
+      // Trigger login modal, redirect to chat after login
+      if (onRequestLoginWithRedirect) {
+        onRequestLoginWithRedirect()
       }
     }
   }
@@ -179,7 +190,7 @@ function LandingPage({ user, onRequestLogin }) {
             <Button
               variant="contained"
               size="large"
-              onClick={handleGetStarted}
+              onClick={handleStartChatting}
               sx={{ minWidth: 200 }}
             >
               Start Chatting Now
