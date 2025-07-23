@@ -1,0 +1,3 @@
+@echo off
+echo Starting Fi MCP Web Server...
+go run web_server.go

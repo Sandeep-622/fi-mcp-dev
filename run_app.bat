@@ -1,0 +1,13 @@
+@echo off
+echo Building and running Fi MCP AI Chat...
+
+echo Installing React dependencies...
+cd frontend
+call npm install
+
+echo Building React frontend...
+call npm run build
+
+echo Starting Go server...
+cd ..
+go run web_server.go
