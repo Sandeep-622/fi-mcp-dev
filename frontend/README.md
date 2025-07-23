@@ -31,7 +31,20 @@ This is a React-based frontend for the Fi MCP AI Chat application, built with Vi
    npm install
    ```
 
-3. Start the development server:
+3. Set up environment variables:
+   ```
+   cp .env.example .env
+   ```
+   Then edit `.env` file and add your actual Firebase configuration values:
+   - `VITE_FIREBASE_API_KEY` - Your Firebase API key
+   - `VITE_FIREBASE_AUTH_DOMAIN` - Your Firebase auth domain
+   - `VITE_FIREBASE_PROJECT_ID` - Your Firebase project ID
+   - `VITE_FIREBASE_STORAGE_BUCKET` - Your Firebase storage bucket
+   - `VITE_FIREBASE_MESSAGING_SENDER_ID` - Your Firebase messaging sender ID
+   - `VITE_FIREBASE_APP_ID` - Your Firebase app ID
+   - `VITE_FIREBASE_MEASUREMENT_ID` - Your Firebase measurement ID
+
+4. Start the development server:
    ```
    npm run dev
    ```
