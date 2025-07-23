@@ -18,7 +18,7 @@ import {
   Chat as ChatIcon,
 } from '@mui/icons-material'
 
-function LandingPage({ user }) {
+function LandingPage({ user, onRequestLogin }) {
   const navigate = useNavigate()
   const theme = useTheme()
 
@@ -49,13 +49,15 @@ function LandingPage({ user }) {
     if (user) {
       navigate('/chat')
     } else {
-      // This will trigger the login modal via the parent component
-      navigate('/chat')
+      // Trigger login modal instead of navigation
+      if (onRequestLogin) {
+        onRequestLogin()
+      }
     }
   }
 
   return (
-    <Box sx={{ minHeight: 'calc(100vh - 64px)', py: 4 }}>
+    <Box sx={{ py: 4 }}>
       <Container maxWidth="lg">
         {/* Hero Section */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>

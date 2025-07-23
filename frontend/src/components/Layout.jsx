@@ -22,10 +22,10 @@ import ChatPage from '../pages/ChatPage'
 import { auth } from '../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 
-function Layout() {
+function Layout({ darkMode, toggleDarkMode }) {
   const [user, setUser] = useState(null)
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
   const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phoneNumber') || '2222222222')
+  const [loginModalOpen, setLoginModalOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const isMobile = useMediaQuery('(max-width:600px)')
@@ -37,16 +37,26 @@ function Layout() {
     "1414141414", "2020202020", "2121212121", "2525252525",
   ]
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-    localStorage.setItem('darkMode', !darkMode)
-  }
-
   // Handle phone number change
   const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value)
     localStorage.setItem('phoneNumber', event.target.value)
+  }
+
+  // Handle opening login modal
+  const handleOpenLoginModal = () => {
+    setLoginModalOpen(true)
+  }
+
+  // Handle closing login modal
+  const handleCloseLoginModal = () => {
+    setLoginModalOpen(false)
+  }
+
+  // Handle successful login
+  const handleLoginSuccess = () => {
+    setLoginModalOpen(false)
+    navigate('/chat')
   }
 
   // Load user from localStorage and set up auth state listener
@@ -105,7 +115,13 @@ function Layout() {
             </FormControl>
           )}
           
-          <GoogleLogin user={user} setUser={setUser} />
+          <GoogleLogin 
+            user={user} 
+            setUser={setUser} 
+            isModalOpen={loginModalOpen}
+            onCloseModal={handleCloseLoginModal}
+            onLoginSuccess={handleLoginSuccess}
+          />
           
           <IconButton color="inherit" onClick={toggleDarkMode} sx={{ ml: 1 }}>
             {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
@@ -113,16 +129,16 @@ function Layout() {
         </Toolbar>
       </AppBar>
       
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Routes>
-          <Route path="/" element={<LandingPage user={user} />} />
+          <Route path="/" element={<LandingPage user={user} onRequestLogin={handleOpenLoginModal} />} />
           <Route 
             path="/chat" 
             element={
               user ? (
                 <ChatPage user={user} darkMode={darkMode} phoneNumber={phoneNumber} />
               ) : (
-                <LandingPage user={user} />
+                <LandingPage user={user} onRequestLogin={handleOpenLoginModal} />
               )
             } 
           />

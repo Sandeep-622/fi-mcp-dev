@@ -13,7 +13,7 @@ import { Google as GoogleIcon, Logout as LogoutIcon } from '@mui/icons-material'
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { auth, googleProvider } from '../firebase'
 
-function GoogleLogin({ user, setUser, onLogout }) {
+function GoogleLogin({ user, setUser, onLogout, isModalOpen, onCloseModal, onLoginSuccess }) {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -36,6 +36,11 @@ function GoogleLogin({ user, setUser, onLogout }) {
       localStorage.setItem('user', JSON.stringify(userData))
       
       setOpen(false)
+      
+      // Call success callback if provided
+      if (onLoginSuccess) {
+        onLoginSuccess()
+      }
     } catch (error) {
       console.error('Error signing in with Google:', error)
     } finally {
@@ -127,7 +132,17 @@ function GoogleLogin({ user, setUser, onLogout }) {
         Login
       </Button>
       
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog 
+        open={isModalOpen !== undefined ? isModalOpen : open} 
+        onClose={() => {
+          setOpen(false)
+          if (onCloseModal) {
+            onCloseModal()
+          }
+        }} 
+        maxWidth="sm" 
+        fullWidth
+      >
         <DialogTitle>
           <Typography variant="h6" textAlign="center">
             Sign in to Fi MCP Chat
