@@ -103,32 +103,44 @@ function Layout({ darkMode, toggleDarkMode }) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" elevation={0}>
+        <Toolbar sx={{ py: 1 }}>
           <Typography 
             variant="h6" 
             component="div" 
             sx={{ 
               flexGrow: 1,
               cursor: 'pointer',
+              fontWeight: 500,
+              fontSize: '1.25rem',
               '&:hover': {
                 opacity: 0.8
-              }
+              },
+              transition: 'opacity 0.2s ease'
             }}
             onClick={() => navigate('/')}
           >
-            Fi MCP AI Chat
+            Fi MCP
           </Typography>
           
           {!isMobile && location.pathname === '/chat' && (
-            <FormControl variant="outlined" size="small" sx={{ minWidth: 200, mr: 2 }}>
-              <InputLabel id="phone-number-label">Phone Number</InputLabel>
+            <FormControl variant="outlined" size="small" sx={{ 
+              minWidth: 180, 
+              mr: 2,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+              }
+            }}>
+              <InputLabel id="phone-number-label" sx={{ fontSize: '0.875rem' }}>
+                Test Profile
+              </InputLabel>
               <Select
                 labelId="phone-number-label"
                 id="phone-number"
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
-                label="Phone Number"
+                label="Test Profile"
+                sx={{ fontSize: '0.875rem' }}
               >
                 {availablePhoneNumbers.map((number) => (
                   <MenuItem key={number} value={number}>{number}</MenuItem>
@@ -146,8 +158,19 @@ function Layout({ darkMode, toggleDarkMode }) {
             onRequestLogin={handleOpenLoginModal}
           />
           
-          <IconButton color="inherit" onClick={toggleDarkMode} sx={{ ml: 1 }}>
-            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+          <IconButton 
+            color="inherit" 
+            onClick={toggleDarkMode} 
+            sx={{ 
+              ml: 1,
+              borderRadius: 2,
+              p: 1,
+              '&:hover': {
+                backgroundColor: 'action.hover'
+              }
+            }}
+          >
+            {darkMode ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
           </IconButton>
         </Toolbar>
       </AppBar>

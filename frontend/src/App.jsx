@@ -17,24 +17,92 @@ function App() {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: darkMode ? '#90caf9' : '#1976d2',
+        main: darkMode ? '#a8c7fa' : '#1a73e8',
+        light: darkMode ? '#c3d9ff' : '#4285f4',
+        dark: darkMode ? '#8ab4f8' : '#1557b0',
       },
       secondary: {
-        main: darkMode ? '#f48fb1' : '#dc004e',
+        main: darkMode ? '#f8bbd9' : '#ea4335',
+        light: darkMode ? '#ffcdd2' : '#fb7c6b',
+        dark: darkMode ? '#f48fb1' : '#c23321',
       },
       background: {
-        default: darkMode ? '#121212' : '#f5f5f5',
-        paper: darkMode ? '#1e1e1e' : '#ffffff',
+        default: darkMode ? '#0d1117' : '#fafafa',
+        paper: darkMode ? '#161b22' : '#ffffff',
       },
+      text: {
+        primary: darkMode ? '#f0f6fc' : '#202124',
+        secondary: darkMode ? '#9ca3af' : '#5f6368',
+      },
+      divider: darkMode ? '#30363d' : '#e8eaed',
+      action: {
+        hover: darkMode ? 'rgba(177, 186, 196, 0.08)' : 'rgba(60, 64, 67, 0.08)',
+      }
     },
     typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Google Sans", "Roboto", "Helvetica", "Arial", sans-serif',
+      h1: {
+        fontWeight: 300,
+        letterSpacing: '-0.02em',
+      },
+      h2: {
+        fontWeight: 400,
+        letterSpacing: '-0.01em',
+      },
+      h3: {
+        fontWeight: 400,
+        letterSpacing: '-0.01em',
+      },
+      h4: {
+        fontWeight: 400,
+      },
+      h5: {
+        fontWeight: 400,
+      },
+      h6: {
+        fontWeight: 500,
+      },
+      body1: {
+        fontSize: '1rem',
+        lineHeight: 1.5,
+      },
+      body2: {
+        fontSize: '0.875rem',
+        lineHeight: 1.5,
+      },
+      button: {
+        textTransform: 'none',
+        fontWeight: 500,
+      },
+    },
+    shape: {
+      borderRadius: 8,
     },
     components: {
       MuiAppBar: {
         styleOverrides: {
           root: {
-            backgroundColor: darkMode ? '#1e1e1e' : '#1976d2',
+            backgroundColor: darkMode ? '#161b22' : '#ffffff',
+            color: darkMode ? '#f0f6fc' : '#202124',
+            boxShadow: darkMode 
+              ? '0 1px 3px rgba(0,0,0,0.3)' 
+              : '0 1px 3px rgba(60,64,67,0.15)',
+            borderBottom: `1px solid ${darkMode ? '#30363d' : '#e8eaed'}`,
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            textTransform: 'none',
+            fontWeight: 500,
+          },
+          contained: {
+            boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+            '&:hover': {
+              boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+            },
           },
         },
       },
@@ -43,8 +111,9 @@ function App() {
           root: {
             borderRadius: 12,
             boxShadow: darkMode 
-              ? '0 2px 8px rgba(0,0,0,0.3)' 
-              : '0 2px 8px rgba(0,0,0,0.1)',
+              ? '0 1px 3px rgba(0,0,0,0.3)' 
+              : '0 1px 3px rgba(60,64,67,0.15)',
+            border: `1px solid ${darkMode ? '#30363d' : '#e8eaed'}`,
           },
         },
       },

@@ -68,122 +68,212 @@ function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
   }
 
   return (
-    <Box sx={{ py: 4 }}>
-      <Container maxWidth="lg">
+    <Box sx={{ py: 0, minHeight: '100%' }}>
+      <Container maxWidth="lg" sx={{ py: 0 }}>
         {/* Hero Section */}
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Box sx={{ 
+          textAlign: 'center', 
+          py: { xs: 8, md: 12 },
+          background: 'linear-gradient(135deg, rgba(25, 118, 210, 0.05) 0%, rgba(220, 0, 78, 0.05) 100%)',
+          borderRadius: { xs: 0, md: 3 },
+          mb: { xs: 4, md: 8 }
+        }}>
           <Typography
-            variant="h2"
+            variant="h1"
             component="h1"
-            gutterBottom
             sx={{
-              fontWeight: 'bold',
-              background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+              fontWeight: 300,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.1,
+              mb: 3,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               color: 'transparent',
-              mb: 3
             }}
           >
-            Your Personal Financial AI Assistant
+            Your Financial
+            <br />
+            AI Assistant
           </Typography>
           
           <Typography
             variant="h5"
             color="text.secondary"
-            sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}
-          >
-            Get instant insights about your finances, track investments, and make informed decisions 
-            with the power of AI
-          </Typography>
-
-          <Button
-            variant="contained"
-            size="large"
-            onClick={handleGetStarted}
-            sx={{
-              py: 2,
-              px: 4,
-              fontSize: '1.2rem',
-              borderRadius: 3,
-              boxShadow: 3,
-              '&:hover': {
-                boxShadow: 6,
-                transform: 'translateY(-2px)'
-              },
-              transition: 'all 0.3s ease'
+            sx={{ 
+              mb: 6, 
+              maxWidth: 600, 
+              mx: 'auto',
+              fontWeight: 400,
+              lineHeight: 1.4,
+              fontSize: { xs: '1.1rem', md: '1.25rem' }
             }}
           >
-            {user ? 'Go to Chat Assistant' : 'Get Started'}
-          </Button>
+            Get instant insights about your finances with AI-powered analysis. 
+            Track investments, understand spending patterns, and make informed decisions.
+          </Typography>
+
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mb: 4 }}>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleGetStarted}
+              sx={{
+                py: 1.5,
+                px: 4,
+                fontSize: '1rem',
+                fontWeight: 500,
+                borderRadius: 2,
+                textTransform: 'none',
+                boxShadow: '0 2px 8px rgba(25, 118, 210, 0.3)',
+                '&:hover': {
+                  boxShadow: '0 4px 16px rgba(25, 118, 210, 0.4)',
+                  transform: 'translateY(-1px)'
+                },
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {user ? 'Go to Chat Assistant' : 'Get Started'}
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={handleStartChatting}
+              sx={{
+                py: 1.5,
+                px: 4,
+                fontSize: '1rem',
+                fontWeight: 500,
+                borderRadius: 2,
+                textTransform: 'none',
+                borderWidth: 2,
+                '&:hover': {
+                  borderWidth: 2,
+                  transform: 'translateY(-1px)'
+                },
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Start Chatting Now
+            </Button>
+          </Box>
 
           {!user && (
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
               Sign in with Google to access your personalized financial data
             </Typography>
           )}
         </Box>
 
         {/* Features Section */}
-        <Box sx={{ mb: 8 }}>
+        <Box sx={{ mb: { xs: 6, md: 10 }, px: { xs: 2, md: 0 } }} data-section="features">
           <Typography
             variant="h3"
             component="h2"
             textAlign="center"
-            gutterBottom
-            sx={{ mb: 6 }}
+            sx={{ 
+              mb: 2,
+              fontSize: { xs: '2rem', md: '2.5rem' },
+              fontWeight: 400,
+              letterSpacing: '-0.01em'
+            }}
           >
             Why Choose Fi MCP?
+          </Typography>
+          
+          <Typography
+            variant="body1"
+            textAlign="center"
+            color="text.secondary"
+            sx={{ mb: 6, maxWidth: 600, mx: 'auto', fontSize: '1.1rem' }}
+          >
+            Powerful features designed to give you complete control over your financial data
           </Typography>
 
           <Grid container spacing={4}>
             {features.map((feature, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card
+                <Box
                   sx={{
-                    height: '100%',
-                    textAlign: 'center',
                     p: 3,
-                    transition: 'all 0.3s ease',
+                    textAlign: 'center',
+                    height: '100%',
+                    borderRadius: 3,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    backgroundColor: 'background.paper',
+                    transition: 'all 0.2s ease',
                     '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: 6
+                      borderColor: 'primary.main',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                      transform: 'translateY(-2px)'
                     }
                   }}
                 >
-                  <CardContent>
-                    <Box sx={{ mb: 2 }}>
-                      {feature.icon}
-                    </Box>
-                    <Typography variant="h6" component="h3" gutterBottom>
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                  <Box sx={{ mb: 2, color: 'primary.main' }}>
+                    {feature.icon}
+                  </Box>
+                  <Typography 
+                    variant="h6" 
+                    component="h3" 
+                    gutterBottom
+                    sx={{ fontWeight: 500, mb: 1.5 }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography 
+                    variant="body2" 
+                    color="text.secondary"
+                    sx={{ lineHeight: 1.6 }}
+                  >
+                    {feature.description}
+                  </Typography>
+                </Box>
               </Grid>
             ))}
           </Grid>
         </Box>
 
-        {/* Demo Section */}
-        <Paper
+        {/* CTA Section */}
+        <Box
           sx={{
-            p: 6,
+            p: { xs: 4, md: 8 },
             textAlign: 'center',
-            background: `linear-gradient(135deg, ${theme.palette.primary.main}20, ${theme.palette.secondary.main}20)`,
-            borderRadius: 3
+            backgroundColor: 'background.paper',
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'divider',
+            mx: { xs: 2, md: 0 }
           }}
         >
-          <Typography variant="h4" component="h2" gutterBottom>
-            Ready to Transform Your Financial Management?
+          <Typography 
+            variant="h4" 
+            component="h2" 
+            gutterBottom
+            sx={{ 
+              fontSize: { xs: '1.75rem', md: '2rem' },
+              fontWeight: 400,
+              mb: 3
+            }}
+          >
+            Ready to get started?
           </Typography>
           
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>
-            Join thousands of users who are already using Fi MCP to better understand and manage their finances. 
-            Our AI-powered assistant provides personalized insights tailored to your financial profile.
+          <Typography 
+            variant="body1" 
+            color="text.secondary" 
+            sx={{ 
+              mb: 4, 
+              maxWidth: 600, 
+              mx: 'auto',
+              fontSize: '1.1rem',
+              lineHeight: 1.6
+            }}
+          >
+            Join thousands of users who trust Fi MCP for their financial insights. 
+            Get personalized analysis and make smarter financial decisions.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -191,23 +281,46 @@ function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
               variant="contained"
               size="large"
               onClick={handleStartChatting}
-              sx={{ minWidth: 200 }}
+              sx={{ 
+                minWidth: 200,
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 500,
+                textTransform: 'none',
+                borderRadius: 2,
+                boxShadow: '0 2px 8px rgba(25, 118, 210, 0.3)',
+                '&:hover': {
+                  boxShadow: '0 4px 16px rgba(25, 118, 210, 0.4)',
+                  transform: 'translateY(-1px)'
+                },
+                transition: 'all 0.2s ease'
+              }}
             >
               Start Chatting Now
             </Button>
             
             <Button
-              variant="outlined"
+              variant="text"
               size="large"
               onClick={() => {
-                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
+                document.querySelector('[data-section="features"]')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              sx={{ minWidth: 200 }}
+              sx={{ 
+                minWidth: 200,
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 500,
+                textTransform: 'none',
+                color: 'text.secondary',
+                '&:hover': {
+                  backgroundColor: 'action.hover'
+                }
+              }}
             >
               Learn More
             </Button>
           </Box>
-        </Paper>
+        </Box>
       </Container>
     </Box>
   )
