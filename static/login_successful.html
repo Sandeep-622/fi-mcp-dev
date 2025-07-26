@@ -180,16 +180,7 @@
             >
               Go to Dashboard
             </button>
-            <button
-              class="go-dashboard-btn"
-              id="goLoginBtn"
-              onclick="redirectToLoginWithSession()"
-              style="margin-top: 16px; background-color: #1bc4a0;"
-              disabled
-              title="Session ID not found. Please log in again."
-            >
-              Go to Login with Session
-            </button>
+            <!-- Removed 'Go to Login with Session' button as requested -->
             <script>
               document.addEventListener('DOMContentLoaded', function() {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -199,17 +190,12 @@
                   localStorage.setItem('sessionId', sessionId);
                 }
                 const btnDashboard = document.getElementById('goDashboardBtn');
-                const btnLogin = document.getElementById('goLoginBtn');
                 if (sessionId) {
                   btnDashboard.disabled = false;
                   btnDashboard.title = '';
-                  btnLogin.disabled = false;
-                  btnLogin.title = '';
                 } else {
                   btnDashboard.disabled = true;
                   btnDashboard.title = 'Session ID not found. Please log in again.';
-                  btnLogin.disabled = true;
-                  btnLogin.title = 'Session ID not found. Please log in again.';
                 }
                 window.redirectToDashboard = function() {
                   // Always get sessionId from localStorage at click time
@@ -217,12 +203,6 @@
                   if (!sid) return;
                   const dashboardUrl = `http://localhost:5173/dashboard?sessionId=${sid}`;
                   window.location.href = dashboardUrl;
-                };
-                window.redirectToLoginWithSession = function() {
-                  let sid = localStorage.getItem('sessionId') || '';
-                  if (!sid) return;
-                  const loginUrl = `http://localhost:8080/login?sessionId=${sid}`;
-                  window.location.href = loginUrl;
                 };
               });
             </script>
