@@ -473,10 +473,13 @@ const styles = {
   body: {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-    minHeight: '100vh',
     color: '#ffffff',
     margin: 0,
-    padding: 0
+    padding: 0,
+    minHeight: '100vh',
+    width: '100vw',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
   },
   header: {
     background: 'rgba(45, 45, 45, 0.8)',
@@ -516,7 +519,10 @@ const styles = {
   container: {
     maxWidth: '1400px',
     margin: '0 auto',
-    padding: '40px'
+    padding: '40px',
+    minHeight: '100vh',
+    boxSizing: 'border-box',
+    overflowY: 'auto',
   },
   refreshBtn: {
     background: '#20d4aa',
