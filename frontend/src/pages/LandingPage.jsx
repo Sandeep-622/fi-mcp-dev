@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import SessionRequiredCard from '../components/SessionRequiredCard'
 import { useNavigate } from 'react-router-dom'
 import {
   Box,
@@ -21,6 +22,7 @@ import {
 function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
   const navigate = useNavigate()
   const theme = useTheme()
+  const [showSessionCard, setShowSessionCard] = useState(false);
 
   const features = [
     {
@@ -45,30 +47,49 @@ function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
     }
   ]
 
+  // Helper: check if sessionId is present and valid in localStorage
+  const isSessionValid = () => {
+    const sessionId = localStorage.getItem('sessionId');
+    // Optionally, add more validation logic here (e.g., expiry)
+    return !!sessionId;
+  };
+
   const handleGetStarted = () => {
     if (user) {
-      navigate('/chat')
+      if (isSessionValid()) {
+        navigate('/chat');
+      } else {
+        setShowSessionCard(true);
+      }
     } else {
-      // Trigger login modal, stay on landing page after login
       if (onRequestLogin) {
-        onRequestLogin()
+        onRequestLogin();
       }
     }
-  }
+  };
 
   const handleStartChatting = () => {
     if (user) {
-      navigate('/chat')
+      if (isSessionValid()) {
+        navigate('/chat');
+      } else {
+        setShowSessionCard(true);
+      }
     } else {
-      // Trigger login modal, redirect to chat after login
       if (onRequestLoginWithRedirect) {
-        onRequestLoginWithRedirect()
+        onRequestLoginWithRedirect();
       }
     }
-  }
+  };
 
   return (
     <Box sx={{ py: 0, minHeight: '100%' }}>
+      {showSessionCard && (
+        <SessionRequiredCard onAuthenticate={() => {
+          setShowSessionCard(false);
+          if (onRequestLoginWithRedirect) onRequestLoginWithRedirect();
+        }} />
+      )}
       <Container maxWidth="lg" sx={{ py: 0 }}>
         {/* Hero Section */}
         <Box sx={{ 
