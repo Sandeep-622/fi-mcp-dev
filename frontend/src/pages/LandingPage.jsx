@@ -19,6 +19,8 @@ import {
   Chat as ChatIcon,
 } from '@mui/icons-material'
 
+
+
 function LandingPage({ user, onRequestLogin, onRequestLoginWithRedirect }) {
   const navigate = useNavigate()
   const theme = useTheme()

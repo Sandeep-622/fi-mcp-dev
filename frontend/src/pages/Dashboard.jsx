@@ -113,6 +113,7 @@ const Dashboard = () => {
     });
   };
 
+
   useEffect(() => {
     if (!sessionId) {
       const newSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -494,7 +495,7 @@ const Dashboard = () => {
               alignItems: 'center',
               gap: '8px'
             }}
-            onClick={() => navigate(`/qna?sessionId=${sessionId}`)}
+            onClick={() => navigate(`/qna?sessionId=${sessionId}&phone=${userPhone}`)}
           >
             🧠 Personal Smart Onboarding
           </button>
