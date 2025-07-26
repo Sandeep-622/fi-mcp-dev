@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
+import QnAForm from "./components/QnAForm";
 
 function App() {
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
@@ -127,6 +128,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/qna" element={<QnAForm />} />
           <Route path="*" element={<Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
         </Routes>
       </Router>

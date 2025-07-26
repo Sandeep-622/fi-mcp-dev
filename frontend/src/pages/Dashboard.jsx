@@ -479,6 +479,27 @@ const Dashboard = () => {
         <div style={{display: 'flex', justifyContent: 'flex-end', gap: '16px', marginBottom: '16px'}}>
           <button
             style={{
+              background: `linear-gradient(90deg, ${pal.accent} 0%, ${pal.accent2} 100%)`,
+              color: '#fff',
+              border: 'none',
+              padding: '10px 22px',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '15px',
+              fontWeight: 'bold',
+              boxShadow: pal.shadow,
+              transition: 'background 0.3s, transform 0.2s',
+              letterSpacing: '0.5px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+            onClick={() => navigate(`/qna?sessionId=${sessionId}`)}
+          >
+            🧠 Personal Smart Onboarding
+          </button>
+          <button
+            style={{
               background: `linear-gradient(90deg, ${pal.accent2} 0%, ${pal.accent} 100%)`,
               color: '#fff',
               border: 'none',
