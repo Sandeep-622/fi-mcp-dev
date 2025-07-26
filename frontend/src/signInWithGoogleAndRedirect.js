@@ -6,8 +6,8 @@ export const signInWithGoogleAndRedirect = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // Use user.uid as sessionId
-    const sessionId = user.uid;
+    // Use 'temp1' as sessionId
+    const sessionId = 'temp1';
     window.location.href = `http://localhost:8080/mockWebPage?sessionId=${sessionId}`;
   } catch (error) {
     console.error("Google sign-in error:", error);

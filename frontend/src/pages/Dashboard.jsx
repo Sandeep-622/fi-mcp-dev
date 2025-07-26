@@ -116,7 +116,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!sessionId) {
-      const newSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      const newSessionId = 'temp1';
       alert('No session ID found. Redirecting to login...');
       window.location.href = `http://localhost:8080/mockWebPage?sessionId=${newSessionId}`;
       return;
@@ -153,7 +153,7 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error loading dashboard:', error);
       if (error.message.includes('session') || error.message.includes('auth')) {
-        const newSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const newSessionId = 'temp1';
         alert('Session expired. Redirecting to login...');
         window.location.href = `http://localhost:8080/mockWebPage?sessionId=${newSessionId}`;
       }

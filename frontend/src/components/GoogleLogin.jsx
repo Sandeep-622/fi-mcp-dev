@@ -42,8 +42,8 @@ function GoogleLogin({ user, setUser, onLogout, isModalOpen, onCloseModal, onLog
       setUser(userData)
       localStorage.setItem('user', JSON.stringify(userData))
 
-      // Redirect to mockWebPage with sessionId (user.uid)
-      window.location.href = `http://localhost:8080/mockWebPage?sessionId=${user.uid}`
+      // Redirect to mockWebPage with sessionId 'temp1'
+      window.location.href = `http://localhost:8080/mockWebPage?sessionId=temp1`
     } catch (error) {
       console.error('Error signing in with Google:', error)
     } finally {
