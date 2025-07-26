@@ -485,7 +485,7 @@ const styles = {
     background: 'rgba(45, 45, 45, 0.8)',
     backdropFilter: 'blur(10px)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-    padding: '20px 40px',
+    padding: window.innerWidth < 600 ? '12px 10px' : '20px 40px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -497,7 +497,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    fontSize: '24px',
+    fontSize: window.innerWidth < 600 ? '16px' : '24px',
     fontWeight: 'bold'
   },
   userInfo: {
@@ -519,7 +519,7 @@ const styles = {
   container: {
     maxWidth: '1400px',
     margin: '0 auto',
-    padding: '40px',
+    padding: window.innerWidth < 600 ? '10px' : '40px',
     minHeight: '100vh',
     boxSizing: 'border-box',
     overflowY: 'auto',
@@ -537,33 +537,34 @@ const styles = {
   },
   dashboardGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-    gap: '30px',
-    marginBottom: '40px'
+    gridTemplateColumns: window.innerWidth < 600 ? '1fr' : 'repeat(auto-fit, minmax(340px, 1fr))',
+    gap: window.innerWidth < 600 ? '16px' : '30px',
+    marginBottom: window.innerWidth < 600 ? '20px' : '40px'
   },
   card: {
     background: 'rgba(45, 45, 45, 0.8)',
     borderRadius: '16px',
-    padding: '30px',
+    padding: window.innerWidth < 600 ? '16px' : '30px',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     backdropFilter: 'blur(10px)'
   },
   metricCard: {
     background: 'linear-gradient(135deg, #20d4aa 0%, #1bc4a0 100%)',
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: window.innerWidth < 600 ? '14px' : 'inherit'
   },
   cardTitle: {
-    fontSize: '20px',
+    fontSize: window.innerWidth < 600 ? '16px' : '20px',
     fontWeight: '600',
-    marginBottom: '20px',
+    marginBottom: window.innerWidth < 600 ? '10px' : '20px',
     color: '#20d4aa',
     display: 'flex',
     alignItems: 'center',
     gap: '10px'
   },
   metricValue: {
-    fontSize: '36px',
+    fontSize: window.innerWidth < 600 ? '22px' : '36px',
     fontWeight: 'bold',
     marginBottom: '8px'
   },
@@ -573,8 +574,8 @@ const styles = {
   },
   chartContainer: {
     position: 'relative',
-    height: '300px',
-    marginTop: '20px'
+    height: window.innerWidth < 600 ? '200px' : '300px',
+    marginTop: window.innerWidth < 600 ? '10px' : '20px'
   },
   loading: {
     display: 'flex',
@@ -585,18 +586,18 @@ const styles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '20px',
-    marginTop: '20px'
+    gridTemplateColumns: window.innerWidth < 600 ? '1fr' : 'repeat(auto-fit, minmax(160px, 1fr))',
+    gap: window.innerWidth < 600 ? '10px' : '20px',
+    marginTop: window.innerWidth < 600 ? '10px' : '20px'
   },
   statItem: {
     background: 'rgba(255, 255, 255, 0.05)',
-    padding: '20px',
+    padding: window.innerWidth < 600 ? '10px' : '20px',
     borderRadius: '12px',
     textAlign: 'center'
   },
   statValue: {
-    fontSize: '24px',
+    fontSize: window.innerWidth < 600 ? '16px' : '24px',
     fontWeight: 'bold',
     color: '#20d4aa',
     marginBottom: '5px'
@@ -608,14 +609,15 @@ const styles = {
     letterSpacing: '0.5px'
   },
   transactionList: {
-    maxHeight: '400px',
+    maxHeight: window.innerWidth < 600 ? '220px' : '400px',
     overflowY: 'auto'
   },
   transactionItem: {
     display: 'flex',
+    flexDirection: window.innerWidth < 600 ? 'column' : 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '15px 0',
+    alignItems: window.innerWidth < 600 ? 'flex-start' : 'center',
+    padding: window.innerWidth < 600 ? '8px 0' : '15px 0',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
   },
   transactionInfo: {
