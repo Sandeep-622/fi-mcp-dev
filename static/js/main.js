@@ -1,3 +1,16 @@
+// 👇 Store sessionId from URL to localStorage
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get('sessionId');
+
+if (sessionId) {
+    localStorage.setItem('sessionId', sessionId);
+
+    // OPTIONAL: Automatically redirect to /login with sessionId
+    // Comment this out if you don't want automatic redirection
+    window.location.href = `/login?sessionId=${sessionId}`;
+} else {
+    console.warn('No sessionId found in URL');
+}
 document.addEventListener('DOMContentLoaded', function() {
     // Theme toggling
     const themeToggle = document.getElementById('themeToggle');

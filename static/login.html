@@ -298,6 +298,46 @@
                 <div class="disclaimer">
                     You're advised not to access Fi MCP from public/shared devices to protect your confidentiality
                 </div>
+                <!-- Go to Dashboard Button (styled to match fi mcp login page) -->
+                <button
+                  class="go-dashboard-btn"
+                  onclick="redirectToDashboard()"
+                  style="margin-top: 24px;"
+                >
+                  Go to Dashboard
+                </button>
+                <script>
+                  function redirectToDashboard() {
+                    // Get sessionId from URL and phone number from input (adjust input id as needed)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const sessionId = urlParams.get('sessionId');
+                    const phoneInput = document.getElementById('phoneInput');
+                    const phoneNumber = phoneInput ? phoneInput.value : '';
+                    window.location.href = `http://localhost:5173/dashboard?sessionId=${sessionId}&phone=${phoneNumber}`;
+                  }
+                </script>
+                <style>
+                  .go-dashboard-btn {
+                    background-color: var(--button-bg);
+                    color: var(--button-text);
+                    border: none;
+                    border-radius: 4px;
+                    padding: 0.75rem 1.5rem;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                    box-shadow: 0 2px 4px var(--shadow-color);
+                    margin-top: 1.5rem;
+                    width: 100%;
+                    max-width: 300px;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                  }
+                  .go-dashboard-btn:hover {
+                    background-color: var(--secondary-color);
+                  }
+                </style>
             </div>
         </div>
         
@@ -357,6 +397,12 @@
         </div>
     </div>
 <script>
+    // Get sessionId from URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    let sessionId = urlParams.get('sessionId') || localStorage.getItem('sessionId') || '';
+    if (urlParams.get('sessionId')) {
+        localStorage.setItem('sessionId', sessionId);
+    }
     // Allowed numbers from Go template
     const allowedNumbers = [
         {{- range $i, $num := .AllowedMobileNumbers -}}
@@ -373,6 +419,10 @@
             errorDiv.style.display = "block";
         }
     });
+    // Debugging output
+    console.log('sessionId in URL:', urlParams.get('sessionId'));
+    console.log('sessionId in localStorage:', localStorage.getItem('sessionId'));
+
 </script>
 </body>
 </html>

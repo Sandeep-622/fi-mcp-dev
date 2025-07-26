@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import Layout from './components/Layout'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
@@ -124,7 +125,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<Layout darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
+        </Routes>
       </Router>
     </ThemeProvider>
   )
