@@ -1,0 +1,4 @@
+google-cloud-aiplatform[adk,agent_engines]
+Flask>=2.3.0
+requests
+python-dotenv

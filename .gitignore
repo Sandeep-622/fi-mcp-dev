@@ -14,3 +14,7 @@ dist/
 .firebase/
 *-debug.log
 firebase-debug.log
+
+
+__pycache__/
+agents/
