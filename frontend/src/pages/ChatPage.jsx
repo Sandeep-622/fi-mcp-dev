@@ -19,6 +19,7 @@ import {
   Send as SendIcon,
 } from '@mui/icons-material'
 import ChatMessage from '../components/ChatMessage'
+import { sendMessageToAgent } from '../services/agentService'
 
 function ChatPage({ user, darkMode }) {
   const [prompt, setPrompt] = useState('')
@@ -81,6 +82,16 @@ function ChatPage({ user, darkMode }) {
     setPrompt(event.target.value)
   }
 
+  // Handle key press for Enter to send
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault()
+      if (prompt.trim() && !loading) {
+        handleSendMessage(event)
+      }
+    }
+  }
+
   // Send message
   const handleSendMessage = async (event) => {
     event.preventDefault()
@@ -88,7 +99,8 @@ function ChatPage({ user, darkMode }) {
     if (!prompt.trim()) return
     
     // Add user message to chat
-    setMessages(prev => [...prev, { role: 'user', content: prompt }])
+    const userMessage = prompt
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }])
     
     // Clear input
     setPrompt('')
@@ -96,26 +108,11 @@ function ChatPage({ user, darkMode }) {
     try {
       setLoading(true)
       
-      // Call the API
-      const response = await fetch('/api/query', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          phoneNumber: phoneNumber,
-          prompt: prompt
-        })
-      })
+      // Call the agent API through our service
+      const response = await sendMessageToAgent(userMessage, phoneNumber)
       
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      
-      // Add assistant message to chat
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+      // Add assistant message to chat - don't truncate the response
+      setMessages(prev => [...prev, { role: 'assistant', content: response }])
       
     } catch (error) {
       console.error('Error sending message:', error)
@@ -123,7 +120,7 @@ function ChatPage({ user, darkMode }) {
       // Add error message to chat
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `Sorry, I encountered an error: ${error.message}. Please try again later.`
+        content: error.message
       }])
       
     } finally {
@@ -321,6 +318,7 @@ function ChatPage({ user, darkMode }) {
               placeholder="Message Fi MCP..."
               value={prompt}
               onChange={handlePromptChange}
+              onKeyDown={handleKeyPress}
               multiline
               maxRows={6}
               disabled={loading}
@@ -372,7 +370,7 @@ function ChatPage({ user, darkMode }) {
               fontSize: '0.75rem'
             }}
           >
-            Fi MCP can make mistakes. Check important info.
+            Fi MCP
           </Typography>
         </Box>
       </Box>
