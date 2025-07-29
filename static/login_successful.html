@@ -162,7 +162,7 @@
             </div>
             
             <h2 class="success-title">Login Successful!</h2>
-            <p class="success-subtitle">You can now close this window and return to your application.</p>
+            <p class="success-subtitle">To continue, please click the button below to go to your dashboard.</p>
             
             <div class="next-steps">
                 <div class="next-steps-title">What's Next?</div>
@@ -170,6 +170,65 @@
                     Open your preferred AI assistant and start asking questions about your financial portfolio, investments, and net worth. Your data is now securely connected!
                 </div>
             </div>
+            <button
+              class="go-dashboard-btn"
+              id="goDashboardBtn"
+              onclick="redirectToDashboard()"
+              style="margin-top: 32px;"
+              disabled
+              title="Session ID not found. Please log in again."
+            >
+              Go to Dashboard
+            </button>
+            <!-- Removed 'Go to Login with Session' button as requested -->
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                let sessionId = urlParams.get('sessionId') || localStorage.getItem('sessionId') || '';
+                // Store sessionId in localStorage if present in URL
+                if (urlParams.get('sessionId')) {
+                  localStorage.setItem('sessionId', sessionId);
+                }
+                const btnDashboard = document.getElementById('goDashboardBtn');
+                if (sessionId) {
+                  btnDashboard.disabled = false;
+                  btnDashboard.title = '';
+                } else {
+                  btnDashboard.disabled = true;
+                  btnDashboard.title = 'Session ID not found. Please log in again.';
+                }
+                window.redirectToDashboard = function() {
+                  // Always get sessionId from localStorage at click time
+                  let sid = localStorage.getItem('sessionId') || '';
+                  if (!sid) return;
+                  const dashboardUrl = `http://localhost:5173/dashboard?sessionId=${sid}`;
+                  window.location.href = dashboardUrl;
+                };
+              });
+            </script>
+            <style>
+              .go-dashboard-btn {
+                background-color: #20d4aa;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.3s;
+                margin-top: 1.5rem;
+                width: 100%;
+                max-width: 300px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 2px 4px rgba(32, 212, 170, 0.2);
+              }
+              .go-dashboard-btn:hover {
+                background-color: #1bc4a0;
+              }
+            </style>
         </div>
     </div>
 </body>

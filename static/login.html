@@ -298,6 +298,7 @@
                 <div class="disclaimer">
                     You're advised not to access Fi MCP from public/shared devices to protect your confidentiality
                 </div>
+                <!-- Go to Dashboard Button removed as per request -->
             </div>
         </div>
         
@@ -357,6 +358,12 @@
         </div>
     </div>
 <script>
+    // Get sessionId from URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    let sessionId = urlParams.get('sessionId') || localStorage.getItem('sessionId') || '';
+    if (urlParams.get('sessionId')) {
+        localStorage.setItem('sessionId', sessionId);
+    }
     // Allowed numbers from Go template
     const allowedNumbers = [
         {{- range $i, $num := .AllowedMobileNumbers -}}
@@ -373,6 +380,10 @@
             errorDiv.style.display = "block";
         }
     });
+    // Debugging output
+    console.log('sessionId in URL:', urlParams.get('sessionId'));
+    console.log('sessionId in localStorage:', localStorage.getItem('sessionId'));
+
 </script>
 </body>
 </html>

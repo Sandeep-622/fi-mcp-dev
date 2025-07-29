@@ -115,6 +115,14 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 // Handler to explicitly check if a session is valid
 func checkSessionHandler(w http.ResponseWriter, r *http.Request) {
+	// Allow CORS for local frontend
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	sessionId := r.URL.Query().Get("sessionId")
 	if sessionId == "" {
 		http.Error(w, "sessionId is required", http.StatusBadRequest)
@@ -123,16 +131,16 @@ func checkSessionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the session exists in the auth middleware's session store
 	phoneNumber, ok := authMiddleware.CheckSession(sessionId)
-	
+
 	// Set response headers
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	if !ok {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte(`{"valid": false, "message": "Invalid or expired session"}`))
 		return
 	}
-	
+
 	// Session is valid
 	response := fmt.Sprintf(`{"valid": true, "phoneNumber": "%s"}`, phoneNumber)
 	w.Write([]byte(response))
@@ -140,21 +148,29 @@ func checkSessionHandler(w http.ResponseWriter, r *http.Request) {
 
 // Handler for direct tool calls
 func toolCallHandler(w http.ResponseWriter, r *http.Request) {
+	// Allow CORS for local frontend
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	sessionId := r.URL.Query().Get("sessionId")
 	toolName := r.URL.Query().Get("tool")
-	
+
 	if sessionId == "" || toolName == "" {
 		http.Error(w, "sessionId and tool are required", http.StatusBadRequest)
 		return
 	}
-	
+
 	// Check if the session exists in the auth middleware's session store
 	phoneNumber, ok := authMiddleware.CheckSession(sessionId)
 	if !ok {
 		http.Error(w, "Invalid or expired session", http.StatusUnauthorized)
 		return
 	}
-	
+
 	// Try to read the tool data from the test directory
 	filePath := fmt.Sprintf("test_data_dir/%s/%s.json", phoneNumber, toolName)
 	data, err := os.ReadFile(filePath)
@@ -162,7 +178,7 @@ func toolCallHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("Error reading tool data: %v", err), http.StatusInternalServerError)
 		return
 	}
-	
+
 	// Set content type and return the data
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)

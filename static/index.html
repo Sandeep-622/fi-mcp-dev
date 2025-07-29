@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fi MCP AI Assistant</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Fi MCP AI Assistant</div>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">🌙</button>
+    </header>
+    
+    <div class="container">
+        <main>
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" data-target="promptTab">Prompt</div>
+                    <div class="tab" data-target="historyTab">History</div>
+                </div>
+                
+                <div id="promptTab" class="tab-content active">
+                    <div class="card">
+                        <h2 class="card-title">Ask your financial question</h2>
+                        
+                        <form id="promptForm">
+                            <div class="form-group">
+                                <label for="phoneNumber">Select Phone Number:</label>
+                                <select id="phoneNumber" name="phoneNumber" required>
+                                    <option value="1111111111">1111111111</option>
+                                    <option value="2222222222">2222222222</option>
+                                    <option value="3333333333">3333333333</option>
+                                    <option value="4444444444">4444444444</option>
+                                    <option value="5555555555">5555555555</option>
+                                    <option value="6666666666">6666666666</option>
+                                    <option value="7777777777">7777777777</option>
+                                    <option value="8888888888">8888888888</option>
+                                    <option value="9999999999">9999999999</option>
+                                    <option value="1010101010">1010101010</option>
+                                    <option value="1212121212">1212121212</option>
+                                    <option value="1313131313">1313131313</option>
+                                    <option value="1414141414">1414141414</option>
+                                    <option value="2020202020">2020202020</option>
+                                    <option value="2121212121">2121212121</option>
+                                    <option value="2525252525">2525252525</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="userPrompt">Your Question:</label>
+                                <textarea id="userPrompt" name="userPrompt" placeholder="e.g., What is my current net worth? How much is my EPF contribution? What are my recent bank transactions?" required></textarea>
+                            </div>
+                            
+                            <button type="submit">Get Answer</button>
+                        </form>
+                        
+                        <div class="loading" id="loadingIndicator">
+                            <div class="loading-spinner"></div>
+                            <p>Processing your request...</p>
+                        </div>
+                        
+                        <div class="response-container" id="responseContainer"></div>
+                    </div>
+                </div>
+                
+                <div id="historyTab" class="tab-content">
+                    <div class="card">
+                        <h2 class="card-title">Prompt History</h2>
+                        <div id="promptHistory"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

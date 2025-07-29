@@ -1,12 +1,12 @@
 # Fi MCP Client
 
-A simple client application for interacting with the Fi MCP server to access financial data.
+A client application for interacting with the Fi MCP server to access financial data, with multiple interface options.
 
 ## Overview
 
-This client application authenticates with the Fi MCP server and allows you to retrieve financial data using a simple command-line interface. It's designed to work with the test data available in the `test_data_dir` directory.
+This client application authenticates with the Fi MCP server and allows you to retrieve financial data using either a command-line interface or a modern React-based web interface. It's designed to work with the test data available in the `test_data_dir` directory.
 
-## How to Use
+## Command-Line Interface
 
 ### Step 1: Start the Fi MCP Server
 ```
@@ -28,6 +28,54 @@ Use the command-line interface to retrieve financial data:
 - `6` or `fetch_stock_transactions` - Stock transaction history
 
 Type `exit` to quit the application.
+
+## React Chat Interface
+
+The React frontend provides a modern chat interface similar to popular AI assistants.
+
+### Running the Full Application
+
+Use the provided scripts to build and run the entire application (React frontend + Go backend):
+
+```
+# On Windows
+run_app.bat
+
+# On macOS/Linux
+chmod +x run_app.sh
+./run_app.sh
+```
+
+This will:
+1. Install React dependencies
+2. Build the React frontend
+3. Start the Go server
+
+### Development Setup
+
+For frontend development:
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+This starts the Vite development server (typically on port 5173) and proxies API requests to the Go backend on port 8080.
+
+### Accessing the Chat Interface
+
+Once running, open your web browser and navigate to:
+```
+http://localhost:8080
+```
+
+### Features of the React Interface
+- Modern chat interface similar to popular AI assistants
+- Light and dark mode support
+- Mobile-friendly responsive design
+- Chat history persistence
+- Markdown support for rich text formatting
 
 ## Configuration
 
